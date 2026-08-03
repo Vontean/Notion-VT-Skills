@@ -38,6 +38,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
    - 识别列表、代码块、引用块
    - **判断哪些内容适合转为 Notion 高级块**（见 Step 2-7）
    - 识别长段落或详细说明（可折叠）
+   - 识别链接并判断目标类型（Notion 内部页面 / 外部网站，见 Step 6 链接可视化决策）
 4. 确保完整获取后再处理
 
 ### Step 2: 优化标题层级
@@ -169,8 +170,22 @@ $`E=mc^2`$
 - 多行引用用 `<br>` 连接，不要用普通换行（会导致多个独立引用块）
 - 如适合 Callout 视觉风格则转为 `<callout>`
 
-**链接：**
-- 描述性文字：`[查看官方文档](url)` 而非 `[点击这里](url)`
+**链接可视化决策（按目标类型选择渲染方式，不要一律用下划线文本链接）：**
+
+| 目标类型 | 判断依据 | 渲染方式 | Notion 渲染效果 |
+|---------|---------|---------|----------------|
+| Notion 页面 | URL 含 `app.notion.com/p/` 或 `notion.so` | `<mention-page url="..."/>` | 带页面图标 + 解析标题的可点击引用（`/link to page`） |
+| Notion 数据库 | URL 为数据库页 | `<mention-database url="..."/>` | 数据库引用 |
+| Notion 数据源 | collection 链接 | `<mention-data-source url="..."/>` | 数据源引用 |
+| Notion 用户 | 用户主页链接 | `<mention-user url="..."/>` | @用户 引用 |
+| 具体日期/时间 | 明确的时间点 | `<mention-date start="2026-08-03"/>` | 日期 mention |
+| 外部网站 | 其他域名 | `[描述性文字](url)` | 下划线文本链接 |
+
+**关键规则：**
+1. **Notion 内部链接优先用 mention 标签**（`<mention-page>` 等），不要降级为 `[text](url)` 文本链接。mention 在 Notion 里渲染为带实体图标 + 解析标题的引用块，视觉远比下划线链接强。
+2. `<mention-page url="..."/>` 的自闭合写法即可，标题内文会被 Notion 忽略并自动解析实际页面名（实测带标题写法也会被规范化为自闭合）。
+3. **外部链接无法在 MCP 格式中生成卡片**：实测 `<bookmark>` 会被解析成 `<unknown>` 块，裸 URL 会降级为文本链接。MCP 的 markdown 格式不支持创建 bookmark（网页书签）或 link_preview（链接预览）卡片——那是用户在 Notion UI 里粘贴 URL 时才触发的行为。因此外部链接一律用 `[描述性文字](url)`，不要尝试其他语法。
+4. 描述性文字：`[查看官方文档](url)` 而非 `[点击这里](url)`
 
 ### Step 7: 增强可读性和视觉层级
 

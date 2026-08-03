@@ -55,7 +55,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 
 **Notion 原生 Callout 格式（不是 Markdown 引用！）：**
 ```xml
-<callout icon="💡" color="blue">
+<callout icon="💡" color="blue_bg">
   正文内容（支持多行、子块）
 </callout>
 ```
@@ -64,13 +64,15 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 
 | 场景 | icon | color |
 |------|------|-------|
-| **💡 提示/技巧** | `"💡"` | `"blue"` |
-| **⚠️ 警告/注意** | `"⚠️"` | `"yellow"` |
-| **✅ 重点/核心** | `"✅"` | `"green"` |
-| **📌 补充说明** | `"📌"` | `"gray"` |
-| **❓ 问题/思考** | `"❓"` | `"purple"` |
-| **🎯 目标/结果** | `"🎯"` | `"red"` |
-| **💻 代码相关** | `"💻"` | `"brown"` |
+| **💡 提示/技巧** | `"💡"` | `"blue_bg"` |
+| **⚠️ 警告/注意** | `"⚠️"` | `"yellow_bg"` |
+| **✅ 重点/核心** | `"✅"` | `"green_bg"` |
+| **📌 补充说明** | `"📌"` | `"gray_bg"` |
+| **❓ 问题/思考** | `"❓"` | `"purple_bg"` |
+| **🎯 目标/结果** | `"🎯"` | `"red_bg"` |
+| **💻 代码相关** | `"💻"` | `"brown_bg"` |
+
+**callout 必须使用 `_bg` 背景色变体**渲染彩色气泡；纯色名（如 `blue`）只作用于文字，背景保持默认浅灰，视觉效果远弱于背景色版。
 
 判断原文关键信息适合转为 Callout 则转。Callout 内可包含子块（Tab 缩进）。
 
@@ -259,22 +261,25 @@ $`E=mc^2`$
 - "Q3 产品路线图" → `product roadmap planning`
 
 **Step 2 — 搜索 Unsplash 图片：**
-用 firecrawl_search 搜索：
-```
-site:unsplash.com {keywords} wallpaper
-```
-或直接用 WebFetch 打开 Unsplash 搜索页：
+优先用 WebFetch 直接打开 Unsplash 搜索页：
 ```
 https://unsplash.com/s/photos/{keywords}
 ```
+（实测 WebSearch 搜 `site:unsplash.com` 经常返回空结果，直接 WebFetch 搜索页更可靠。）
+
+如 WebFetch 受限不可用，再用 firecrawl_search 兜底：
+```
+site:unsplash.com {keywords} wallpaper
+```
 
 **Step 3 — 提取图片 URL：**
-从搜索结果中取第一张高质量图片。Unsplash 图片 URL 格式为：
+从搜索页中取第一张图片。Unsplash 图片 URL 格式为：
 ```
 https://images.unsplash.com/photo-{photo_id}?w=1200&h=630&fit=crop
 ```
-- 直接从页面 meta 标签或图片 src 中提取 `photo-{id}` 部分
+- 从页面 meta 标签或 `img src` 中提取 `photo-{id}` 部分
 - `w=1200&h=630&fit=crop` 参数生成适合 Notion 封面的 1200×630 裁剪图
+- 若搜索页抓取失败（页面结构变化或反爬），降级到 Step 4 的通用封面
 
 **Step 4 — 备选方案（搜索不可用时）：**
 如果网络搜索受限，使用以下通用封面 URL（选择与主题最接近的）：
@@ -311,7 +316,7 @@ https://images.unsplash.com/photo-{photo_id}?w=1200&h=630&fit=crop
 ```
 4. 接着是文档说明 Callout：
 ```xml
-<callout icon="📝" color="gray">
+<callout icon="📝" color="gray_bg">
   **Document Description**
   This document has been optimized according to Notion formatting specifications, including:
   - ✅ Optimized heading hierarchy

@@ -118,9 +118,9 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 ```xml
 <table fit-page-width="true" header-row="true">
   <colgroup>
-    <col width="150">
-    <col width="600">
-    <col width="120">
+    <col width="100">
+    <col width="480">
+    <col width="140">
   </colgroup>
   <tr color="blue_bg">
     <td>列标题</td>
@@ -136,13 +136,14 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 ```
 
 **表格规则：**
-- **必须 `fit-page-width="true"`**：表格占满页面宽度，不跟随内容 hug，不被设成固定窄宽
+- **必须 `fit-page-width="true"`**：让表格可以精确控制宽度，不 hug 内容
 - **每一列都要在 `<colgroup>` 里设 `<col width="N">`（像素）**，按内容量和重要层级分配列宽，不要留空让 Notion 自动分配（会 hug 内容、长文本被挤）
+- **关键机制（实测）**：`fit-page-width` 表格的**渲染宽度 = 各列 `width` 之和**。所以列宽总和必须 ≈ Notion 默认内容区宽度（**~720px**），表格才正好适配页面内容，不凸出也不缩窄。可对照页面上普通段落块的宽度确认。
 - **列宽分配原则**：按「信息承载量 + 重要层级」分档——承载主要信息的列（描述/正文/标题）最宽，状态/序号/操作等简短列最窄
-  - 序号/状态/操作类窄列：80~160px
-  - 名称/标题类中列：200~300px
-  - 描述/正文类宽列：400~600px
-  - 各列宽度总和 ≈ 860~900px（接近内容区宽度，确保占满页宽）
+  - 序号/状态/操作类窄列：80~120px
+  - 名称/标题类中列：160~240px
+  - 描述/正文类宽列：300~480px
+  - 各列宽度总和 ≈ 700~720px（Notion 默认内容区宽度）
 - `header-row`: 首行是否为表头
 - `header-column`: 首列是否为表头
 - 颜色优先级：单元格 > 行 > 列

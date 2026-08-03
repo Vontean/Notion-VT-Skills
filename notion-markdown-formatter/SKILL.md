@@ -179,12 +179,15 @@ $`E=mc^2`$
 | Notion 数据源 | collection 链接 | `<mention-data-source url="..."/>` | 数据源引用 |
 | Notion 用户 | 用户主页链接 | `<mention-user url="..."/>` | @用户 引用 |
 | 具体日期/时间 | 明确的时间点 | `<mention-date start="2026-08-03"/>` | 日期 mention |
-| 外部网站 | 其他域名 | `[描述性文字](url)` | 下划线文本链接 |
+| 外部网站 | 其他域名 | **web bookmark**（REST API 创建）或 `[描述性文字](url)` 兜底 | 站点卡片（标题/描述/图标） |
 
 **关键规则：**
 1. **Notion 内部链接优先用 mention 标签**（`<mention-page>` 等），不要降级为 `[text](url)` 文本链接。mention 在 Notion 里渲染为带实体图标 + 解析标题的引用块，视觉远比下划线链接强。
 2. `<mention-page url="..."/>` 的自闭合写法即可，标题内文会被 Notion 忽略并自动解析实际页面名（实测带标题写法也会被规范化为自闭合）。
-3. **外部链接无法在 MCP 格式中生成卡片**：实测 `<bookmark>` 会被解析成 `<unknown>` 块，裸 URL 会降级为文本链接。MCP 的 markdown 格式不支持创建 bookmark（网页书签）或 link_preview（链接预览）卡片——那是用户在 Notion UI 里粘贴 URL 时才触发的行为。因此外部链接一律用 `[描述性文字](url)`，不要尝试其他语法。
+3. **外部链接首选 Web Bookmark 卡片**（Notion 的 `/web bookmark` 块，渲染为带站点标题、描述、图标的卡片），但要注意 MCP 格式限制：
+   - **MCP 的 Enhanced Markdown 格式不支持创建 web bookmark**——实测 `<bookmark>`、`<web_bookmark>`、`<web-bookmark>` 三种写法均无效（被解析为 `<unknown>` 或被破坏），裸 URL 会被降级为文本链接。
+   - **真实创建途径只有两条**：① Notion REST API 追加 `{"object":"block","type":"bookmark","bookmark":{"url":"...","caption":[...]}}`（需要 `NOTION_API_KEY`）；② 用户在 Notion UI 中粘贴 URL 后手动转成 web bookmark。
+   - **因此**：默认输出 `[描述性文字](url)` 文本链接兜底；对**重要外部链接**（如核心引用、工具文档），在文档中追加标注 `<!-- web-bookmark: https://example.com -->`，当环境配置了 `NOTION_API_KEY` 时用 REST API 将该标注替换为真实 bookmark 块。
 4. 描述性文字：`[查看官方文档](url)` 而非 `[点击这里](url)`
 
 ### Step 7: 增强可读性和视觉层级

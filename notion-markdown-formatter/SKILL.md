@@ -118,14 +118,17 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 ```xml
 <table fit-page-width="true" header-row="true">
   <colgroup>
-    <col color="gray">
-    <col>
+    <col width="150">
+    <col width="600">
+    <col width="120">
   </colgroup>
   <tr color="blue_bg">
     <td>列标题</td>
     <td>列标题</td>
+    <td>列标题</td>
   </tr>
   <tr>
+    <td>内容</td>
     <td>内容</td>
     <td color="green">带颜色单元格</td>
   </tr>
@@ -133,7 +136,13 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 ```
 
 **表格规则：**
-- `fit-page-width`: 是否填充满页宽
+- **必须 `fit-page-width="true"`**：表格占满页面宽度，不跟随内容 hug，不被设成固定窄宽
+- **每一列都要在 `<colgroup>` 里设 `<col width="N">`（像素）**，按内容量和重要层级分配列宽，不要留空让 Notion 自动分配（会 hug 内容、长文本被挤）
+- **列宽分配原则**：按「信息承载量 + 重要层级」分档——承载主要信息的列（描述/正文/标题）最宽，状态/序号/操作等简短列最窄
+  - 序号/状态/操作类窄列：80~160px
+  - 名称/标题类中列：200~300px
+  - 描述/正文类宽列：400~600px
+  - 各列宽度总和 ≈ 860~900px（接近内容区宽度，确保占满页宽）
 - `header-row`: 首行是否为表头
 - `header-column`: 首列是否为表头
 - 颜色优先级：单元格 > 行 > 列

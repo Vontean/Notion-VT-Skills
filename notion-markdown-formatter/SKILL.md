@@ -1,11 +1,11 @@
 ---
 name: notion-markdown-formatter
-description: Converts basic Markdown text into Notion-flavored Markdown — a hybrid format mixing standard Markdown with XML tags for Callout boxes, Toggle lists, Tables with colors, Columns, and all supported Notion block types. 将普通 Markdown 转换为 Notion 风格排版（含 XML 块标签）：Callout 提示框、Toggle 折叠、分栏、颜色标记、富文本对齐 Notion 实际存储格式。适用于把文档整理进 Notion MCP 工具的场景。
+description: 将普通 Markdown 整理为 Notion-flavored Markdown，支持 Callout、Toggle、分栏、表格、颜色、媒体块及其他 Notion XML block。适用于通过 Notion MCP 创建或更新页面、整理 Notion 文档，或把 Notion body.storage 转回可读文本。
 ---
 
 ## 核心认知：Notion 使用的是混合格式，不是纯 Markdown
 
-Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**——标准 Markdown + XML 标签的混合体。单纯用 Markdown 写不出 Callout、Toggle、分栏等 Notion 核心特性。
+Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**：标准 Markdown 与 XML 标签的混合格式。单纯用 Markdown 写不出 Callout、Toggle、分栏等 Notion 核心特性。
 
 **格式分层规则：**
 
@@ -21,7 +21,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 **关键规则：**
 - 子块缩进**必须用 Tab**（`\t`），不是空格
 - 需要转义的字符：`\ * ~ ` $ [ ] < > { } | ^`
-- 不支持 heading 5/6 — 自动折成 heading 4
+- 不支持 heading 5/6，统一折成 heading 4
 - 空行会被 Notion 自动吃掉；如需显式空行，用 `<empty-block/>`
 - 代码块内**不要**转义特殊字符，内容原样输出
 
@@ -29,19 +29,19 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 
 ## 处理流程
 
-### Step 1: 读取并分析原始内容
+### 步骤 1：读取并分析原始内容
 
 1. 如果用户用 `@quote` 引用文件，用 `read` 工具读取
 2. 如果用户直接粘贴文本，直接用
 3. 分析内容结构和语义意图：
    - 识别标题层级（H1-H4，H5/H6 折为 H4）
    - 识别列表、代码块、引用块
-   - **判断哪些内容适合转为 Notion 高级块**（见 Step 2-7）
+   - **判断哪些内容适合转为 Notion 高级块**（见步骤 2–7）
    - 识别长段落或详细说明（可折叠）
-   - 识别链接并判断目标类型（Notion 内部页面 / 外部网站，见 Step 6 链接可视化决策）
+   - 识别链接并判断目标类型（Notion 内部页面 / 外部网站，见步骤 6 的链接呈现规则）
 4. 确保完整获取后再处理
 
-### Step 2: 优化标题层级
+### 步骤 2：优化标题层级
 
 按 Notion 规范整理：
 1. 确保文档有明确的 H1 主标题
@@ -52,7 +52,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 6. **标题颜色**：行末加 `{color="Color"}` 属性
 7. **Toggle 标题**：行末加 `{toggle="true" color?="Color"}`，子内容用 Tab 缩进
 
-### Step 3: 识别并转换 Callout 提示
+### 步骤 3：识别并转换 Callout
 
 **Notion 原生 Callout 格式（不是 Markdown 引用！）：**
 ```xml
@@ -73,11 +73,11 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 | **🎯 目标/结果** | `"🎯"` | `"red_bg"` |
 | **💻 代码相关** | `"💻"` | `"brown_bg"` |
 
-**callout 必须使用 `_bg` 背景色变体**渲染彩色气泡；纯色名（如 `blue`）只作用于文字，背景保持默认浅灰，视觉效果远弱于背景色版。
+Callout 需要彩色背景时，使用 `_bg` 变体；纯色名（如 `blue`）只改变文字颜色，背景仍是默认样式。
 
 判断原文关键信息适合转为 Callout 则转。Callout 内可包含子块（Tab 缩进）。
 
-### Step 4: 优化长内容 — Toggle 折叠
+### 步骤 4：用 Toggle 收起长内容
 
 **Notion 原生 Toggle 格式：**
 ```xml
@@ -103,7 +103,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 
 将适合折叠的内容转为 Toggle，保持主文档精炼。
 
-### Step 5: 优化列表和表格
+### 步骤 5：优化列表和表格
 
 **列表优化：**
 - 无序列表 `-` 表达并列关系
@@ -113,7 +113,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 - **列表项必须有内联富文本**，否则会渲染为空项
 - 列表项也可加 `{color="Color"}` 属性
 
-**表格优化 — 使用 Notion 完整表格格式：**
+**表格使用 Notion 完整格式：**
 
 ```xml
 <table fit-page-width="true" header-row="true">
@@ -138,8 +138,8 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 **表格规则：**
 - **必须 `fit-page-width="true"`**：让表格可以精确控制宽度，不 hug 内容
 - **每一列都要在 `<colgroup>` 里设 `<col width="N">`（像素）**，按内容量和重要层级分配列宽，不要留空让 Notion 自动分配（会 hug 内容、长文本被挤）
-- **关键机制（实测）**：`fit-page-width` 表格的**渲染宽度 = 各列 `width` 之和**。所以列宽总和必须 ≈ Notion 默认内容区宽度（**~720px**），表格才正好适配页面内容，不凸出也不缩窄。可对照页面上普通段落块的宽度确认。
-- **列宽分配原则**：按「信息承载量 + 重要层级」分档——承载主要信息的列（描述/正文/标题）最宽，状态/序号/操作等简短列最窄
+- **实测行为**：`fit-page-width` 表格的**渲染宽度 = 各列 `width` 之和**。所以列宽总和必须 ≈ Notion 默认内容区宽度（**~720px**），表格才正好适配页面内容，不凸出也不缩窄。可对照页面上普通段落块的宽度确认。
+- **列宽分配**：按「信息承载量 + 重要层级」分档。承载主要信息的列（描述/正文/标题）最宽，状态/序号/操作等简短列最窄
   - 序号/状态/操作类窄列：80~120px
   - 名称/标题类中列：160~240px
   - 描述/正文类宽列：300~480px
@@ -150,7 +150,7 @@ Notion MCP 工具和 `body.storage` 使用的是 **Notion-flavored Markdown**—
 - 单元格**只能**包含富文本，不能嵌套其他块类型
 - 可以使用状态 emoji：✅ 🔄 ⏳ ❌ ⚠️ 🔵 🟢 🟡 🔴
 
-### Step 6: 优化代码块、公式和引用
+### 步骤 6：优化代码块、公式和引用
 
 **代码块：**
 ````
@@ -192,7 +192,7 @@ $`E=mc^2`$
 | 外部网站 | 其他域名 | `<bookmark url="URL">标题</bookmark>` | web bookmark 卡片（站点名 + URL + 标题） |
 
 **关键规则：**
-1. **Notion 内部链接优先用 mention 标签**（`<mention-page>` 等），不要降级为 `[text](url)` 文本链接。mention 在 Notion 里渲染为带实体图标 + 解析标题的引用块，视觉远比下划线链接强。
+1. **Notion 内部链接优先用 mention 标签**（`<mention-page>` 等），不要降级为 `[text](url)`。mention 会保留实体图标并解析页面标题，更适合内部页面引用。
 2. `<mention-page url="..."/>` 的自闭合写法即可，标题内文会被 Notion 忽略并自动解析实际页面名（实测带标题写法也会被规范化为自闭合）。
 3. **外部链接用 Web Bookmark 卡片**（Notion 的 `/web bookmark` 块，渲染为带站点名 + URL + 标题的卡片）。MCP 的 markdown 格式**支持**用 `<bookmark>` 语法创建：
    ```
@@ -203,7 +203,7 @@ $`E=mc^2`$
    - 注意：MCP 读取已存在的 bookmark 块时显示为 `<unknown url="块锚点" alt="bookmark"/>`，这是正常的只读表示，**不代表写入失败**（误判过一次）
 4. 描述性文字：`[查看官方文档](url)` 而非 `[点击这里](url)`
 
-### Step 7: 增强可读性和视觉层级
+### 步骤 7：调整可读性和视觉层级
 
 **分栏布局：**
 ```xml
@@ -242,7 +242,7 @@ $`E=mc^2`$
 - 用 `---` 分隔大章节
 - 适当留空创造视觉呼吸感
 
-**排版节奏——用 `<empty-block/>` 制造呼吸感：**
+**用 `<empty-block/>` 调整排版节奏：**
 空行一律用独占一行的 `<empty-block/>` 标签（前后各留一个空行分隔相邻块）；**不要用裸空行**（会被 Notion 自动吞掉）。
 
 1. **观点分组**：一个观点（可能由 1~2 段组成）表达完后，插入 `<empty-block/>` 再进入下一个观点。不是每段都拆，而是按「语义观点」分组；同一观点内的多段不插空行。
@@ -254,11 +254,11 @@ $`E=mc^2`$
 - 标题或 Callout 中适度用 emoji 增强可读性
 - 避免滥用，保持专业感
 
-### Step 8: 匹配页面 Icon 和封面图
+### 步骤 8：匹配页面 icon 和封面图
 
 在输出文档内容之前，自动为文档选择合适的 **页面 icon（emoji）** 和 **封面图片 URL**，方便用户在 Notion 中快速定位。
 
-#### 8.1 Emoji Icon 选择
+#### 8.1 选择 emoji icon
 
 根据文档主题和类型，从以下映射选择最合适的 emoji，如有多个候选选最贴合的那个：
 
@@ -287,19 +287,19 @@ $`E=mc^2`$
 1. 先读文档标题和开头几段，判断文档大类
 2. 从对应类别的候选 emoji 中选最匹配的
 3. 如果文档有明显主题词（如 "API" "数据库" "用户访谈"），优先主题词匹配
-4. 不确定时选 ✨ 或 📄 作为安全默认
+4. 不确定时选 ✨ 或 📄
 
 #### 8.2 封面图搜索
 
 封面图从 Unsplash 获取，流程如下：
 
-**Step 1 — 提取搜索关键词：**
+**步骤 1：提取搜索关键词**
 从文档标题和核心内容中提取 1-3 个英文关键词。例如：
 - "用户增长策略分析" → `growth strategy`
 - "React 组件库设计规范" → `react code design`
 - "Q3 产品路线图" → `product roadmap planning`
 
-**Step 2 — 搜索 Unsplash 图片：**
+**步骤 2：搜索 Unsplash 图片**
 优先用 WebFetch 直接打开 Unsplash 搜索页：
 ```
 https://unsplash.com/s/photos/{keywords}
@@ -311,16 +311,16 @@ https://unsplash.com/s/photos/{keywords}
 site:unsplash.com {keywords} wallpaper
 ```
 
-**Step 3 — 提取图片 URL：**
+**步骤 3：提取图片 URL**
 从搜索页中取第一张图片。Unsplash 图片 URL 格式为：
 ```
 https://images.unsplash.com/photo-{photo_id}?w=1200&h=630&fit=crop
 ```
 - 从页面 meta 标签或 `img src` 中提取 `photo-{id}` 部分
 - `w=1200&h=630&fit=crop` 参数生成适合 Notion 封面的 1200×630 裁剪图
-- 若搜索页抓取失败（页面结构变化或反爬），降级到 Step 4 的通用封面
+- 若搜索页抓取失败（页面结构变化或反爬），改用步骤 4 的通用封面
 
-**Step 4 — 备选方案（搜索不可用时）：**
+**步骤 4：搜索不可用时使用备选封面**
 如果网络搜索受限，使用以下通用封面 URL（选择与主题最接近的）：
 
 | 主题 | 备用封面 URL |
@@ -344,49 +344,21 @@ https://images.unsplash.com/photo-{photo_id}?w=1200&h=630&fit=crop
 
 后续使用 Notion MCP 工具（create-pages / update-page）时，将 icon 和 cover 作为参数传入。
 
-### Step 9: 生成优化文档
+### 步骤 9：生成优化文档
 
 1. 用 Write 工具创建新文档，包含优化后的内容
-2. 文档标题格式：`"原标题 - Notion Optimized Version"`
-3. 文档最顶部标注 icon 和 cover（Step 8 的产出）：
+2. 文档标题格式：`"原标题（Notion 优化版）"`
+3. 文档最顶部标注 icon 和 cover（步骤 8 的产出）：
 ```
 <!-- notion-page-icon: {选定的 emoji} -->
 <!-- notion-page-cover: {搜索到的封面图 URL} -->
 ```
-4. 接着是文档说明 Callout：
-```xml
-<callout icon="📝" color="gray_bg">
-  **Document Description**
-  This document has been optimized according to Notion formatting specifications, including:
-  - ✅ Optimized heading hierarchy
-  - ✅ Callout boxes
-  - ✅ Toggle collapsible lists
-  - ✅ Formatted lists and tables
-  - ✅ Enhanced readability
-  - 🎨 Page icon & cover image
-  This content can be directly used with Notion MCP tools.
-</callout>
----
-```
-5. 之后是完整的 Notion-flavored Markdown 内容
-6. 告知用户：
-   - 文档已生成，可直接用于 Notion MCP 工具
-   - 页面 icon（emoji）和封面图 URL 已标注在文档顶部
-   - 使用 notion-create-pages 时，将 `icon` 和 `cover` 参数传入即可自动设置
+4. 之后直接写入完整的 Notion-flavored Markdown，不默认添加「本文已优化」之类的说明 Callout
+5. 如果接着调用 Notion MCP，把文档顶部标注的 `icon` 和 `cover` 传入对应参数
 
-### Step 10: 提供使用说明
+### 步骤 10：交付
 
-告知用户：
-1. 优化后的文档已创建
-2. 内容格式为 **Notion-flavored Markdown**（含 XML 标签），可直接作为 Notion MCP 工具（create-pages / update-page）的输入
-3. 展示效果说明：
-   - `<callout>` → 带颜色背景和图标的气泡提示框
-   - `<details>` → 可折叠/展开的内容块
-   - `<columns>` → 多栏并排布局
-   - `<table>` → 完整表格（含颜色、列宽）
-   - `{toggle="true"}` → 可折叠标题
-4. 如需调整，随时告知
-5. 询问是否需要进一步优化
+只交代用户接下来真正需要的信息：文档保存在哪里、是否已经写入 Notion，以及 `icon`、`cover` 有没有一并设置。只有用户询问时，才解释 XML tags 的渲染效果。不要附加格式教学、客套话或「是否继续优化」之类的固定结尾。
 
 ### 补充：从 Notion 格式逆向转换
 

@@ -1,19 +1,19 @@
 # Notion-VT-Skills
 
-个人收藏的 Notion 相关 Claude Code Skills 集合。
+Notion 排版 Skill 的 MVP 仓库。主线只维护“把已成文的文字排版成更好的 Notion 页面”，不包含写作共创与跨平台渲染实验。
 
-## 已收录
+## 收录
 
 ### notion-markdown-formatter
 
-将普通 Markdown 文本转换为 **Notion-flavored Markdown**（标准 Markdown + XML 块标签的混合格式），可直接用于 Notion MCP 工具（create-pages / update-page）。
+把一篇已经成立的 Markdown 整理成**骨架清晰、视觉有层次、叙事有节奏**的 Notion 页面，输出 Notion-flavored Markdown，可直接交给 Notion MCP（create-pages / update-page）。
 
-**能力概览：**
+它专注于三件事：
 
-- Callout 提示框（`<callout>`）、Toggle 折叠（`<details>`）、分栏布局（`<columns>`）
-- 完整表格格式（颜色、列宽、表头行列）
-- 块级 / 内联颜色标记
-- 页面 icon（emoji）+ Unsplash 主题封面图自动匹配
-- 从 Notion 存储格式逆向转换为可读文本
+- **骨架**：章节层级与顺序，让每个部分承担清晰的位置。
+- **层次**：Callout、Toggle、分栏、表格、分隔线等块的选择，只保留支撑阅读路径的强调。
+- **节奏**：段落长度、观点分组与停顿，让阅读速度跟随内容张力。
 
-> 📌 **说明：** 本 skill 基于 YouMind 平台原作者发布的 *Notion Markdown Formatter* 进行二次开发，在保留原有 9 步文档优化流程的基础上，扩展了 Notion 原生 XML 格式支持、完整表格/分栏/颜色等高级块能力，并新增了页面 icon 与封面图的自动匹配。
+已验证的 Notion 语法、表格列宽、mention/bookmark 等规则放在 references/syntax.md，仅在生成时读取。
+
+实验性的 reflective co-author / 写作共创流程当前不在主线，保存在独立的 archive/vt-writing 分支中。

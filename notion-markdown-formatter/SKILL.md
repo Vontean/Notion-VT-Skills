@@ -37,8 +37,11 @@ description: 把已成文的 Markdown 排版成骨架清晰、视觉有层次、
 | Toggle | 长补充、步骤、FAQ、代码等可以折叠的细节；主线不折叠 |
 | Columns | 两个以上真正并列或对照的短块 |
 | Table | 三个以上对象按相同字段比较 |
+| Quote | 引用原文或保留一段完整的话 |
 | Divider | 章节之间已用标题时不用；只在需要停顿又不值得新标题时用 |
 | Empty block | 观点或模块之间留呼吸，不用于装饰 |
+| Tabs | 内容互相可切换；标签名需用户设置，详见 Reference |
+| Database / Chart | 数据持续变化、需要筛选排序或可视化；详见 notion-data.md |
 
 Callout 每页 2–3 个以内。不为“看起来丰富”额外引入列表、表格、分栏或颜色。颜色和 emoji 只在承载语义时使用（警告、重点、状态），默认不加。
 
@@ -54,12 +57,22 @@ Callout 每页 2–3 个以内。不为“看起来丰富”额外引入列表�
 
 ## Notion 语法与输出
 
-写入前完整阅读 [references/syntax.md](references/syntax.md)，按其中已验证的语法生成。容易出错且必须遵守的硬规则：
+写入前先判断这次内容需要的平台能力，再读取对应 Reference：
+
+- 页面内容用 Markdown 排版：完整阅读 [references/notion-syntax.md](references/notion-syntax.md)，按其中已验证的语法生成。
+- 需要数据库、图表或数据视图：完整阅读 [references/notion-data.md](references/notion-data.md)，这部分不能只靠 Markdown，需要配合 Notion 工具。
+
+完整语法来自 MCP 资源，不在这里复述：
+
+- 页面块语法：读取 notion://docs/enhanced-markdown-spec。
+- 视图配置：读取 notion://docs/view-dsl-spec。
+
+容易出错且必须遵守的硬规则：
 
 - 子块缩进用 Tab，不是空格。
 - 空行必须用独占一行的 `<empty-block/>`，不要用裸空行。
-- 表格必须 `fit-page-width="true"`，列宽总和约 720px。
-- Notion 内部页面用 mention，外部链接用带 inner text 的 `<bookmark>`。
+- 表格根据需要设置 `fit-page-width`；列宽可显式设置，也可留空自动分配，不强制 720px。
+- Notion 内部页面用 mention；外部链接用普通 `[text](url)`。书签卡片 MCP 无法创建，不要写 `<bookmark>`（会被降级成 unknown）。
 - Notion 不支持 H5/H6，统一折叠为 H4。
 
 输出正文从第一级标题开始；如果调用方把 `title` 作为独立参数传入，正文从 H2 开始，避免重复页面标题。

@@ -1,6 +1,6 @@
 ---
 name: notion-markdown-formatter
-description: 把已成文的 Markdown 排版成骨架清晰、视觉有层次、叙事有节奏的 Notion 页面。适用于通过 Notion MCP 创建或更新页面，或在写入前整理标题、段落、Callout、分栏、表格等块级结构。不用于讨论立意、改写内容或教学 Notion 语法。
+description: 把已成文的 Markdown 排版成骨架清晰、视觉有层次、叙事有节奏的 Notion 页面。适用于通过 Notion MCP 创建或更新页面，或在写入前整理标题、段落、Callout、分栏、表格等块级结构。
 ---
 
 # Notion 排版 MVP
@@ -27,23 +27,9 @@ description: 把已成文的 Markdown 排版成骨架清晰、视觉有层次、
 - 各节顺序保留原文逻辑。只有明显错位、且调整只改变顺序不改变内容时（例如把背景放到结尾）才调整，并说明。
 - 开头保持正文段落，不把承诺转换成 Callout；结尾不追加总结，让原文的自然结尾保留下来。
 
-### 层次
+### 块选择
 
-一个页面只保留支撑阅读路径的强调。每章最多一个有分量的重点块：
-
-| 块 | 什么时候用 |
-|------|------|
-| Callout | 信息独立、会打断主线，但读者需要停下来注意 |
-| Toggle | 长补充、步骤、FAQ、代码等可以折叠的细节；主线不折叠 |
-| Columns | 两个以上真正并列或对照的短块 |
-| Table | 三个以上对象按相同字段比较 |
-| Quote | 引用原文或保留一段完整的话 |
-| Divider | 章节之间已用标题时不用；只在需要停顿又不值得新标题时用 |
-| Empty block | 观点或模块之间留呼吸，不用于装饰 |
-| Tabs | 内容互相可切换；标签名需用户设置，详见 Reference |
-| Database / Chart | 数据持续变化、需要筛选排序或可视化；详见 notion-data.md |
-
-Callout 每页 2–3 个以内。不为“看起来丰富”额外引入列表、表格、分栏或颜色。颜色和 emoji 只在承载语义时使用（警告、重点、状态），默认不加。
+每个块什么时候用、怎么选，以 [references/notion-syntax.md](references/notion-syntax.md) 的「块选择」表为准；数据块见 [references/notion-data.md](references/notion-data.md)。总原则：只保留支撑阅读路径的强调，不为“看起来丰富”堆块。
 
 ### 节奏
 

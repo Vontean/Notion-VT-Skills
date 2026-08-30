@@ -6,16 +6,15 @@
     <text x="72" y="132" font-size="52" font-weight="700" fill="#1a1a1a">Notion 排版</text>
     <text x="72" y="178" font-size="24" fill="#4a4a4a">把已成文的 Markdown 排成</text>
     <text x="72" y="212" font-size="24" fill="#4a4a4a">骨架清晰 · 层次分明 · 节奏自然</text>
-    <text x="72" y="246" font-size="15" fill="#8a8a8a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">$notion-layout → Notion-flavored Markdown</text>
 
     <!-- 左侧：三个关键词 -->
     <g font-size="13" fill="#5a5a5a">
       <rect x="72" y="280" width="96" height="28" rx="6" fill="#f0f0f0"/>
-      <text x="120" y="299" text-anchor="middle">骨架 Skeleton</text>
+      <text x="120" y="299" text-anchor="middle">Skeleton</text>
       <rect x="184" y="280" width="96" height="28" rx="6" fill="#f0f0f0"/>
-      <text x="232" y="299" text-anchor="middle">层次 Hierarchy</text>
+      <text x="232" y="299" text-anchor="middle">Hierarchy</text>
       <rect x="296" y="280" width="96" height="28" rx="6" fill="#f0f0f0"/>
-      <text x="344" y="299" text-anchor="middle">节奏 Rhythm</text>
+      <text x="344" y="299" text-anchor="middle">Rhythm</text>
     </g>
   </g>
 
@@ -41,6 +40,5 @@
     <rect x="58" y="218" width="180" height="8" rx="3" fill="#b0b0b0"/>
     <!-- 分隔线 -->
     <line x1="24" y1="246" x2="456" y2="246" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="24" y="266" font-size="12" fill="#9a9a9a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Callout · Toggle · Columns · Table</text>
   </g>
 </svg>

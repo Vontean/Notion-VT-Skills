@@ -1,6 +1,6 @@
 # Notion-VT-Skills
 
-Notion 排版 Skill 的 MVP 仓库。主线只维护“把已成文的文字排版成更好的 Notion 页面”，不包含写作共创与跨平台渲染实验。
+Notion 排版 Skill 的 MVP 仓库。主线只维护“把已成文的文字排版成更好的 Notion 页面”。
 
 ## 收录
 
@@ -19,5 +19,3 @@ Notion 平台能力按两类拆成 Reference，仅在生成时读取，只记 MC
 - **notion-syntax.md**：页面内容排版的决策与实测坑（UI 专属能力、安全边界）。
 - **notion-data.md**：Database、Chart、View 的边界与坑。
 - 完整语法以 Notion MCP 资源为准（enhanced-markdown-spec / view-dsl-spec）。
-
-实验性的 reflective co-author / 写作共创流程当前不在主线，保存在独立的 archive/vt-writing 分支中。

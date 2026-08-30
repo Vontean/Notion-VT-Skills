@@ -1,9 +1,9 @@
 ---
-name: notion-markdown-formatter
+name: notion-layout
 description: 把已成文的 Markdown 排版成骨架清晰、视觉有层次、叙事有节奏的 Notion 页面。适用于通过 Notion MCP 创建或更新页面，或在写入前整理标题、段落、Callout、分栏、表格等块级结构。
 ---
 
-# Notion 排版 MVP
+# Notion 排版
 
 输入：一篇已经成立的 Markdown 文章（标题、段落、列表、引用等）。
 输出：Notion-flavored Markdown，可直接交给 Notion MCP 的 `create-pages` / `update-page`。
@@ -60,6 +60,7 @@ description: 把已成文的 Markdown 排版成骨架清晰、视觉有层次、
 - 表格根据需要设置 `fit-page-width`；列宽可显式设置，也可留空自动分配，不强制 720px。
 - Notion 内部页面用 mention；外部链接用普通 `[text](url)`。书签卡片 MCP 无法创建，不要写 `<bookmark>`（会被降级成 unknown）。
 - Notion 不支持 H5/H6，统一折叠为 H4。
+- 页面必须设置 icon（emoji）并在内容顶部标注；封面按需，判断规则见 [references/notion-syntax.md](references/notion-syntax.md) 的「页面 icon 与封面」。
 
 输出正文从第一级标题开始；如果调用方把 `title` 作为独立参数传入，正文从 H2 开始，避免重复页面标题。
 

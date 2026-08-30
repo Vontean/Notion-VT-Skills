@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" role="img" aria-label="Notion Layout - 把已成文的 Markdown 排版成骨架清晰、视觉有层次、叙事有节奏的 Notion 页面">
+  <rect width="1200" height="360" fill="#ffffff"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <!-- 左侧：标题区 -->
+    <text x="72" y="76" font-size="18" fill="#8a8a8a" letter-spacing="1">NOTION LAYOUT</text>
+    <text x="72" y="132" font-size="52" font-weight="700" fill="#1a1a1a">Notion 排版</text>
+    <text x="72" y="178" font-size="24" fill="#4a4a4a">把已成文的 Markdown 排成</text>
+    <text x="72" y="212" font-size="24" fill="#4a4a4a">骨架清晰 · 层次分明 · 节奏自然</text>
+    <text x="72" y="246" font-size="15" fill="#8a8a8a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">$notion-layout → Notion-flavored Markdown</text>
+
+    <!-- 左侧：三个关键词 -->
+    <g font-size="13" fill="#5a5a5a">
+      <rect x="72" y="280" width="96" height="28" rx="6" fill="#f0f0f0"/>
+      <text x="120" y="299" text-anchor="middle">骨架 Skeleton</text>
+      <rect x="184" y="280" width="96" height="28" rx="6" fill="#f0f0f0"/>
+      <text x="232" y="299" text-anchor="middle">层次 Hierarchy</text>
+      <rect x="296" y="280" width="96" height="28" rx="6" fill="#f0f0f0"/>
+      <text x="344" y="299" text-anchor="middle">节奏 Rhythm</text>
+    </g>
+  </g>
+
+  <!-- 右侧：Notion 块结构示意 -->
+  <g transform="translate(640, 44)">
+    <!-- 三栏演示：正文 / Callout / 列表 -->
+    <rect x="0" y="0" width="480" height="272" rx="12" fill="#fafafa" stroke="#e8e8e8"/>
+    <!-- 标题块 -->
+    <rect x="24" y="20" width="180" height="14" rx="3" fill="#1a1a1a"/>
+    <rect x="24" y="44" width="120" height="8" rx="3" fill="#c8c8c8"/>
+    <rect x="24" y="60" width="300" height="8" rx="3" fill="#d8d8d8"/>
+    <!-- Callout 块 -->
+    <rect x="24" y="84" width="432" height="52" rx="8" fill="#e8f1fc"/>
+    <rect x="38" y="100" width="14" height="14" rx="3" fill="#3182ce"/>
+    <rect x="64" y="104" width="200" height="8" rx="3" fill="#2b6cb0"/>
+    <!-- 列表块 -->
+    <circle cx="38" cy="166" r="4" fill="#a0a0a0"/>
+    <rect x="52" y="162" width="160" height="8" rx="3" fill="#c0c0c0"/>
+    <circle cx="38" cy="188" r="4" fill="#a0a0a0"/>
+    <rect x="52" y="184" width="140" height="8" rx="3" fill="#c0c0c0"/>
+    <!-- Toggle 块 -->
+    <path d="M38 222 l8 6 8 -6" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+    <rect x="58" y="218" width="180" height="8" rx="3" fill="#b0b0b0"/>
+    <!-- 分隔线 -->
+    <line x1="24" y1="246" x2="456" y2="246" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="24" y="266" font-size="12" fill="#9a9a9a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">Callout · Toggle · Columns · Table</text>
+  </g>
+</svg>

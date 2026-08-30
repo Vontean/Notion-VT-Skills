@@ -152,6 +152,51 @@ Table of contents：长文档放目录，table_of_contents 自闭合标签。
 
 必须独占一行，前后有其他文本；不要用裸空行。
 
+## 页面 icon 与封面
+
+写文档时必须为页面设置 icon（emoji），封面按需设置。
+
+### icon（必须）
+
+- 用 emoji 作页面 icon，由模型根据文档主题自行判断，不使用固定类型映射。
+- 创建/更新页面时，在内容顶部标注：
+
+<!-- notion-page-icon: ⚡ -->
+
+### cover（按需）
+
+先判断这篇文章是否容易找到贴合语境的配图：
+
+- 有明确视觉主题（设计、旅行、产品、摄影、自然等）→ 搜索 Unsplash 配图。
+- 纯技术文档、介绍文档、数据报告（如模型介绍、规范文档）→ 难以找到贴合语境配图，不加封面。
+
+搜索流程（需要封面时）：
+
+1. 从文档标题和核心内容提取 1-3 个英文关键词。
+2. 抓取 unsplash.com/s/photos/{关键词} 搜索页，取第一张图片的 photo-id。
+3. 拼成封面 URL：https://images.unsplash.com/photo-{id}?w=1200&h=630&fit=crop
+4. 搜索失败时，按主题从以下备选封面选最接近的：
+
+| 主题 | 备选封面 URL |
+|---|---|
+| 科技/代码 | https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop |
+| 设计/创意 | https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1200&h=630&fit=crop |
+| 自然/环境 | https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&h=630&fit=crop |
+| 抽象/极简 | https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=630&fit=crop |
+| 商业/办公 | https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=630&fit=crop |
+
+设置封面时，在内容顶部标注：
+
+<!-- notion-page-cover: https://images.unsplash.com/photo-xxx?w=1200&h=630&fit=crop -->
+
+调用 Notion MCP 时，把标注的 icon 和 cover 作为参数传入 create_pages / update_page。
+
+## 状态 emoji
+
+项目排期、任务清单等状态场景可以使用状态 emoji：✅ 🔄 ⏳ ❌ ⚠️ 🔵 🟢 🟡 🔴。
+
+这不是限制：只有表达状态时才用，其他场景（提示、重点、装饰）不必局限于这些 emoji。
+
 ## UI 专属：不要承诺自动创建
 
 - Web Bookmark 卡片：MCP 拒绝创建；输出裸 URL，用户粘贴转卡片。
